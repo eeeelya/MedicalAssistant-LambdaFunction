@@ -1,5 +1,5 @@
 import json
-from run import model_predict_masks, model_predict_classes 
+from run import model_predict_masks
 import numpy as np
 import boto3
 
@@ -8,16 +8,12 @@ def lambda_handler(event, context):
     model_name = event["model_name"]
     image = np.asarray(event["image"], dtype=np.float32)
 
-    S3 = boto3.client("s3")
-    bucket = 'ml-web-app-models'
-    key = model_name
-    obj = S3.get_object(Bucket=bucket, Key=key)
+    s3 = boto3.client("s3")
+    obj = s3.get_object(Bucket='your-bucket-with-models', Key=model_name)
     response = obj['Body'].read()
     
-    if key == "SegmentationModel.onnx":
+    if model_name == "SegmentationModel.onnx":
         masks = model_predict_masks(response, image)
+
         return {"statusCode": 200, "body": json.dumps(masks)}
-    elif key == "classificator.onnx":
-        labels = model_predict_classes(response, image)
-        return {"statusCode": 200, "body": json.dumps(labels)}
 

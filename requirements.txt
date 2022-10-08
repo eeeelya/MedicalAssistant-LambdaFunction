@@ -1,0 +1,10 @@
+coloredlogs==15.0.1
+flatbuffers==22.9.24
+humanfriendly==10.0
+mpmath==1.2.1
+numpy==1.23.3
+onnxruntime==1.12.1
+packaging==21.3
+protobuf==4.21.7
+pyparsing==3.0.9
+sympy==1.11.1
